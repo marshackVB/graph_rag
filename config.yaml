@@ -1,0 +1,22 @@
+model: 
+  name: databricks-meta-llama-3-3-70b-instruct
+  parameters:
+    max_tokens: 1500
+    temperature: 0.01 
+langgraph:
+  streaming: True
+retriever:
+  vector_search_endpoint_name: one-env-shared-endpoint-13
+  vector_search_index: main.rag_chatbot.databricks_pdf_documentation_self_managed_vs_index
+  embedding_model: databricks-gte-large-en
+  parameters:
+    k: 3
+    query_type: ann
+  schema:
+    chunk_text: content
+    document_uri: url
+    primary_key: id
+  chunk_template: 'Passage: {chunk_text}\n'
+mlflow:
+  experiment_location: "/Users/marshall.carter@databricks.com/langgraph_models"
+  uc_model: main.default.mlc_langgraph_model
