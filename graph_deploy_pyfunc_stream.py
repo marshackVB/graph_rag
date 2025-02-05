@@ -1,7 +1,7 @@
 # Databricks notebook source
 # MAGIC %md ##Chatmodel deployment 
 # MAGIC
-# MAGIC Supports batch (invoke) and streaming (stream) inference
+# MAGIC Supports batch (invoke) and streaming (stream) inference at the LangGraph event level.
 # MAGIC
 
 # COMMAND ----------
@@ -76,6 +76,7 @@
 # MAGIC
 # MAGIC   def predict_stream(self, context, messages, params=None):
 # MAGIC     """
+# MAGIC     NOTE: This method is not supported by Databricks model serving yet. 
 # MAGIC     Stream the application on the input messages. Selectively choose the output 
 # MAGIC     from graph events (node executions) to return to the user. This is necessary 
 # MAGIC     when the model is executed using the 'stream' method rather than the 'invoke' 
@@ -346,28 +347,3 @@ pprint(result)
 for example in input_examples:
   result = deploy_client.predict(endpoint=deployment_info.endpoint_name, inputs=example)
 pprint(result)
-
-# COMMAND ----------
-
-# MAGIC %md Stream
-
-# COMMAND ----------
-
-from data.input_examples import input_example, input_examples
-from mlflow.deployments import get_deploy_client
-
-deploy_client = get_deploy_client("databricks")
-
-# COMMAND ----------
-
-input_example
-
-# COMMAND ----------
-
-for event in deploy_client.predict_stream(endpoint="agents_main-default-mlc_langgraph_model", inputs=input_examples[1]):
-  print(event)
-
-# COMMAND ----------
-
-for event in deploy_client.predict_stream(endpoint=deployment_info.endpoint_name, inputs=eval(serving_payload)):
-  pprint(event)
