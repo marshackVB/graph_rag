@@ -58,6 +58,7 @@ class GraphChatModel(ChatModel):
 
   def predict_stream(self, context, messages, params=None):
     """
+    NOTE: This method is not supported by Databricks model serving yet. 
     Stream the application on the input messages. Selectively choose the output 
     from graph events (node executions) to return to the user. This is necessary 
     when the model is executed using the 'stream' method rather than the 'invoke' 
