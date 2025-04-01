@@ -1,9 +1,10 @@
 import mlflow
 from databricks_langchain import DatabricksVectorSearch
-from langchain_community.embeddings import DatabricksEmbeddings
+from databricks_langchain import DatabricksEmbeddings
 from config_utils import load_config
 
 
+embeddings = DatabricksEmbeddings(endpoint="databricks-bge-large-en")
 config = load_config("retriever")
 vector_search_schema = config.get("schema")
 embedding_model = DatabricksEmbeddings(endpoint=config.get("embedding_model"))

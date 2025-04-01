@@ -1,7 +1,7 @@
 from typing import Iterator, Dict, List, Any
 import mlflow
 from langchain_core.runnables import RunnableLambda
-from state import GraphState, StreamState
+from state import GraphState
 from prompts.templates import prompt_no_history, prompt_with_history
 from resources.retriever import vector_search_retriever, format_documents
 from resources.model import model
@@ -10,9 +10,7 @@ from nodes.utils import (format_generation_user,
                          choose_prompt_question)
 from config_utils import load_config
 
-config = load_config("langgraph")
-support_streaming: bool = config.get("streaming")
-graph_state = StreamState if support_streaming  else GraphState 
+graph_state = GraphState 
 
 def load_generation_no_history():
   """
